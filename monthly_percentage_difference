@@ -21,5 +21,5 @@ FROM sf_transactions
 GROUP BY 1 )
 
 select m1.year_month, round(100*(m1.curr-m2.curr)/m2.curr),2) as revenue_diff_pct
-from monthly_rev m1 join monthly_rev m2 on m1.year_month = m2.year_month + 1
+from monthly_rev m1 join monthly_rev m2 on m1.year_month = m2.year_month + 1 ### we can't calcuate a string with a number
 order by year_month
