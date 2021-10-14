@@ -28,8 +28,8 @@ order by year_month
 To optimize
 window alias
 SELECT to_char(created_at::date, 'YYYY-MM') as year_month,
-  round(100*(sum(value) - lag(sum(value)) over (w)/lag(sum(value)) over (w),2) as revenue_diff_pct
+  round(100*(sum(value) - lag(sum(value),1) over (w)/lag(sum(value),1) over (w),2) as revenue_diff_pct
 FROM monthly_rev
 GROUP BY 1
-window w order by to_char(created_at::date, 'YYYY-MM')
+window w as (order by to_char(created_at::date, 'YYYY-MM'))
 ORDER BY year_month
