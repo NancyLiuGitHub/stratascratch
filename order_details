@@ -1,0 +1,10 @@
+name, order date, details, sum(cost)
+where first in (jill, eva)
+group by 1,2,3
+order by customer
+
+SELECT first_name, order_date, order_details, sum(total_order_cost)
+FROM orders o join customers c on o.cust_id = c.id
+WHERE first_name IN ('Jill', 'Eva')
+GROUP BY 1,2,3
+ORDER BY 1
