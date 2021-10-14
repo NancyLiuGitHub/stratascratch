@@ -1,0 +1,8 @@
+orders, customers, total cost, city
+group by city
+having filter
+
+SELECT city, COUNT(o.id), COUNT(c.id), sum(total_order_cost)
+FROM customers c left join orders o on c.id = o.cust_id
+GROUP BY city
+HAVING count(o.id) >= 5
