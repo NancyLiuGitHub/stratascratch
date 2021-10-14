@@ -1,6 +1,6 @@
 select user_id
 from (
-select user_id, row_number() over (partition by user_id order by created_at range between interval '6' day preceding and current row) as return 
+select user_id, count(created_at) over (partition by user_id order by created_at range between interval '6' day preceding and current row) as return 
 from amazon_transactions
 order by user_id, created_at) t
 where return >1
