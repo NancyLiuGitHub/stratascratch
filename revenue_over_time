@@ -5,10 +5,11 @@ SELECT to_char(created_at::date, 'YYYY-MM') as year_month, ##left(created_at, 7)
  FROM amazon_purchases
  where purchase_amt > 0
  group by 1
+ window w as (to_char(created_at::date, 'YYYY-MM'))
  order by 1
   
   
-window w as (to_char(created_at::date, 'YYYY-MM'))
+
 
 SELECT to_char(created_at::date, 'YYYY-MM') as year_month,
        avg(sum(purchase_amt)) over (oder by to_char(created_at::date, 'YYYY-MM') rows between 2 preceding and current row) as avg
@@ -16,4 +17,13 @@ SELECT to_char(created_at::date, 'YYYY-MM') as year_month,
  FROM amazon_purchases
  where purchase_amt >= 0
  group by 1
+ order by 1
+
+use window alias
+SELECT to_char(created_at::date,'YYYY-MM') as year_month,
+  avg(sum(purchase_amt)) over (w range between interval '2' month preceding and current row) avge
+ FROM amazon_purchases
+ where purchase_amt >= 0
+ group by 1
+ WINDOW w as (order by to_date(to_char(created_at::date,'YYYY-MM'),'YYYY-MM-01'))
  order by 1
