@@ -1,0 +1,6 @@
+select order_date, first_name, sum(total_order_cost)
+from orders o join customers c on o.cust_id = c.id
+where order_date between '2019-02-01' and '2019-05-01'
+group by 1,2
+order by 3 desc
+limit 1
