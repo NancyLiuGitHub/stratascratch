@@ -1,0 +1,15 @@
+1) total revenue per month: date(y-m)
+2) lag() as pre
+3) round((curr-pre)/pre * 100,2)
+4) order by date
+
+with monthly_rev as (
+SELECT left(created_at, 7) as year_month, sum(value) as curr
+FROM sf_transactions
+GROUP BY 1 )
+
+SELECT year_month,
+  round(100*(curr - lag(curr) over (order by year_month))/lag(curr) over (order by year_month),2) as revenue_diff_pct
+FROM sf_transactions
+ORDER BY year_month
+
