@@ -14,4 +14,21 @@ where m1.created_at != m2.created_at
     and m1.product_id != m2.product_id
     and datediff(m2.created_at, m1.created_at) >= 1;
 
+wrong: didn't consider a user purchase 2 item in the same and purchase the same item the other days seperately
+for exmaple
+user_id	created_at	product_id
+25	   2019-01-22	114
+25	   2019-01-22	115
+25	   2019-01-24	114
+25	   2019-01-27	115
 
+
+OTHER SOLUTION
+with cte as (select user_id,
+dense_rank() over(partition by user_id order by created_at) as rnk_c,
+dense_rank() over(partition by user_id, product_id order by created_at) as rnk_p 
+from marketing_campaign)
+
+select count(distinct user_id) 
+from cte
+where rnk_c > 1 and rnk_p = 1;
